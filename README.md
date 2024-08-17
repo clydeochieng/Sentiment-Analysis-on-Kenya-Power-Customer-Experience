@@ -23,6 +23,3 @@ Measuring the success of the project is essential for evaluating the effectivene
 ### 6. Conclusion
 The Conclusion section summarizes the findings, insights, and recommendations derived from the analysis. It encapsulates the key takeaways, actionable strategies, and implications for PrimeNest Investments in their real estate investment endeavors. By distilling complex analysis results into actionable insights, the project aims to empower decision-makers with valuable information for strategic planning.
 
-## Visualizations
-- **Time Series Plot:** A visual representation of historical real estate price trends, enabling stakeholders to identify patterns, trends, and potential investment opportunities.
-- **Correlation Heatmap:** An illustrative visualization showcasing the correlations between different variables in the dataset, aiding in understanding the relationships and dependencies within the data.

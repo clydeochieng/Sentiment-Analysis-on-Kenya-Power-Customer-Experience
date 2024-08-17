@@ -1,7 +1,6 @@
 import streamlit as st
 from keras.models import load_model
 import numpy as np
-import joblib
 import pickle
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
@@ -94,7 +93,6 @@ user_input = st.text_input("Enter your query here:")
 
 if st.button("Submit"):
     category, response = predict_category(user_input)
-    st.write(f"### Predicted category: {category}")
     st.write(response)
 
 # Footer

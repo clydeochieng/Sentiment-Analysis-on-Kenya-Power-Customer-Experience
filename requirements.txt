@@ -1,0 +1,15 @@
+pandas
+matplotlib
+seaborn
+nltk
+langdetect
+textblob
+emoji
+scikit-learn
+keras
+tensorflow
+wordcloud
+streamlit
+numpy
+cython
+setuptools

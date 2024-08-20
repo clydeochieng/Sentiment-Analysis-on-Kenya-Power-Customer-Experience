@@ -36,43 +36,69 @@ st.markdown("""
 st.sidebar.header("Navigation")
 st.sidebar.write("For more information, visit [KPLC's website](https://www.kplc.co.ke/)")
 
+# Sidebar for county selection
+st.sidebar.title("Select Your County")
+county = st.sidebar.selectbox("Select your county:", [
+    "Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Thika", "Nyeri", "Machakos", "Meru", "Embu"
+])
+
+# Local contact information based on county selection
+local_contacts = {
+    "Nairobi": "Contact Nairobi office: +254 123 456789",
+    "Mombasa": "Contact Mombasa office: +254 987 654321",
+    "Kisumu": "Contact Kisumu office: +254 567 890123",
+    "Nakuru": "Contact Nakuru office: +254 345 678901",
+    "Eldoret": "Contact Eldoret office: +254 234 567890",
+    "Thika": "Contact Thika office: +254 678 901234",
+    "Nyeri": "Contact Nyeri office: +254 456 789012",
+    "Machakos": "Contact Machakos office: +254 789 012345",
+    "Meru": "Contact Meru office: +254 890 123456",
+    "Embu": "Contact Embu office: +254 012 345678",
+}
+
+st.sidebar.write(local_contacts[county])
+
 # Add a button that redirects to the customer feedback page
 if st.button("Give Feedback"):
     feedback_url = "https://www.kplc.co.ke/content/item/1764/customer-feedback"
     st.markdown(f"[Click here to provide feedback]({feedback_url})", unsafe_allow_html=True)
 
-# Custom responses for each category
-responses = {
-    2: "Hello, apologies, kindly share your account details, exact location and phone number for assistance.",
-    3: "Hello, apologies for the delay kindly DM us your meter/account number . You can also check the last 3 token transactions you have made using *977#.",
-    4: "Hi. Apologies for the inconvenience. It is a faulty transformer issue affecting the area. We are working to resolve the issue. ",
-    0: "Send an email to customercare@kplc.co.ke indicating your account details, exact location and phone number and request for your bill statement",
-    1: "If you have a complaint, we're here to listen. Please provide more details so we can assist you better.",
-}
+# Step 1: Ask for the meter or account number
+meter_account_number = st.text_input("Please enter your meter or account number:")
 
+# Check if the meter or account number is provided
+if meter_account_number:
+    # Step 2: Proceed with the query
+    user_input = st.text_input("Enter your query here:")
 
-# Function to preprocess text using Tokenizer and pad_sequences
-def preprocess_text(text):
-    # Convert text to sequences
-    seq = tokenizer.texts_to_sequences([text])
-    # Pad sequences
-    padded = pad_sequences(seq, maxlen=50)
-    return padded
+    if st.button("Submit"):
+        if user_input:
+            # Process the query and provide a response
+            def preprocess_text(text):
+                seq = tokenizer.texts_to_sequences([text])
+                padded = pad_sequences(seq, maxlen=50)
+                return padded
 
-# Function to predict category
-def predict_category(text):
-    processed_text = preprocess_text(text)
-    prediction = model.predict(processed_text)
-    category = np.argmax(prediction, axis=1)[0]
-    response = responses.get(category, "Sorry, I couldn't understand your request. Please try again.")
-    return category, response
+            def predict_category(text):
+                processed_text = preprocess_text(text)
+                prediction = model.predict(processed_text)
+                category = np.argmax(prediction, axis=1)[0]
+                return category
 
-
-user_input = st.text_input("Enter your query here:")
-
-if st.button("Submit"):
-    category, response = predict_category(user_input)
-    st.write(response)
+            category = predict_category(user_input)
+            responses = {
+                2: "Hello, apologies, kindly share your account details, exact location and phone number for assistance.",
+                3: "Hello, apologies for the delay kindly DM us your meter/account number. You can also check the last 3 token transactions you have made using *977#.",
+                4: "Hi. Apologies for the inconvenience. It is a faulty transformer issue affecting the area. We are working to resolve the issue.",
+                0: "Send an email to customercare@kplc.co.ke indicating your account details, exact location and phone number and request for your bill statement.",
+                1: "If you have a complaint, we're here to listen. Please provide more details so we can assist you better."
+            }
+            response = responses.get(category, "Sorry, I couldn't understand your request. Please try again.")
+            st.write(response)
+        else:
+            st.write("Please enter a query.")
+else:
+    st.write("Please enter your meter or account number to proceed.")
 
 # About Us and Contact Us sections side by side
 col1, col2 = st.columns(2)

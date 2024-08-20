@@ -1,4 +1,4 @@
-# Sentiment Analysis and Chatbot Development for Kenya Power and Lighting Company (KPLC)
+# Sentiment Analysis for Kenya Power and Lighting Company (KPLC)
 
 ## Business Understanding
 
